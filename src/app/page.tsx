@@ -15,11 +15,23 @@ const IMAGES = [image1, image2, image3, image4, image5, image6];
 
 export default function Home() {
   const galleryRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
+  const textRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: yScrollGallery } = useScroll({
     target: galleryRef,
   });
+  const { scrollYProgress: yScrollText } = useScroll({
+    target: textRef,
+  });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["60px", `-${2.5 * 450}px`]);
+  const x = useTransform(yScrollGallery, [0, 1], ["60px", `-${2.5 * 450}px`]);
+  const xText = useTransform(yScrollText, [1, 0], ["-68%", "-1%"]);
+  const yText = useTransform(yScrollText, [0, 1], ["0%", `${30 * 8}%`]);
+  const xTextNegative = useTransform(yScrollText, [0, 1], ["-68%", "0%"]);
+  const yTextNegative = useTransform(
+    yScrollText,
+    [0, 1],
+    [`-${30 * 8}%`, "0%"],
+  );
 
   const variants: Variants = {
     initial: (direction: 1 | -1) => ({
@@ -95,6 +107,35 @@ export default function Home() {
               </motion.div>
             </motion.div>
           ))}
+        </div>
+      </section>
+      <section ref={textRef} className="relative mt-12 h-[200vh] bg-white">
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden text-9xl uppercase">
+          <motion.p
+            style={{
+              x: xTextNegative,
+              y: yTextNegative,
+              rotate: 5,
+              translateY: -100,
+            }}
+            className="absolute origin-top-left whitespace-nowrap bg-yellow-400 py-2"
+          >
+            HTML - CSS - JAVASCRIPT - REACTJS - TAILWIND - WEB - DESIGN - HTML -
+            CSS - REACTJS - DESIGN
+          </motion.p>
+          <motion.p
+            style={{ x: xText, y: yText, rotate: -5, translateY: 100 }}
+            className="absolute origin-left -rotate-12 whitespace-nowrap bg-red-400 py-2"
+          >
+            HTML - CSS - JAVASCRIPT - REACTJS - TAILWIND - WEB - DESIGN - HTML -
+            CSS - REACTJS - DESIGN
+          </motion.p>
+          {/* <p className="absolute  rotate-6 whitespace-nowrap bg-yellow-400 py-2">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt vitae
+            iure explicabo a quasi veritatis animi, soluta eum. Fugit, magni
+            exercitationem dicta dignissimos modi ad vero explicabo sapiente
+            provident esse!
+          </p> */}
         </div>
       </section>
     </main>
